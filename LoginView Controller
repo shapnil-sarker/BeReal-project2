@@ -1,0 +1,52 @@
+import UIKit
+import Parse
+import Toast_Swift
+class LoginViewController: UIViewController {
+
+    @IBOutlet weak var passwordTextField: UITextField!
+    @IBOutlet weak var emailTextField: UITextField!
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.navigationController?.navigationBar.isHidden = true
+    }
+    
+    @IBAction func loginbtn(_ sender: Any) {
+        guard let username = emailTextField.text, let password = passwordTextField.text else {
+            self.view.makeToast("fill all fields")
+            return }
+        PFUser.logInWithUsername(inBackground: username, password: password) { (user, error) in
+            if let error = error {
+                self.view.makeToast("Error logging in: \(error.localizedDescription)")
+            } else if let user = user {
+                UserDefaults.standard.setValue(user.username, forKey: "username")
+                self.loginUser()
+            }
+        }
+    }
+    
+    
+    @IBAction func signupBtn(_ sender: Any) {
+        let user = PFUser()
+        user.password = passwordTextField.text
+        user.username = emailTextField.text
+        
+        user.signUpInBackground { (success, error) in
+            if let error = error {
+                self.view.makeToast("Error: \(error.localizedDescription)")
+            } else {
+                UserDefaults.standard.setValue(user.username, forKey: "username")
+                self.loginUser()
+            }
+        }
+    }
+    
+    private func loginUser(){
+        let vc: PostListViewController = storyboard?.instantiateViewController(withIdentifier:  "PostListViewController") as! PostListViewController
+        self.navigationController?.pushViewController(vc, animated: true)
+    }
+}
