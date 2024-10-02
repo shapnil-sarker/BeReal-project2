@@ -6,6 +6,8 @@ Submitted by: Shapnil Sarker
 
 Time spent: 2.5 hours spent in total
 
+![Untitled video - Made with Clipchamp (5)](https://github.com/user-attachments/assets/c40ee0f1-3256-45cc-990e-b7e0283f44cd)
+ 
 ## Required Features
 
 The following **required** functionality is completed:
